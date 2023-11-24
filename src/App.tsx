@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Alert } from 'antd';
 import AppContext from "./appContext";
 import Form from "./Components/Form";
@@ -13,6 +13,7 @@ function App() {
   const [showEdit, setShowEdit] = useState(true);
   const [treeData, setTreeData] = useState([]);
   const [removeParent, setRemoveParent] = useState(false)
+  const nodeClipboard = useRef<NodeType>()
 
   const fetchTreeData = async () => {
     const result = await getNodes();
@@ -25,10 +26,14 @@ function App() {
 
   const handleContextMenuClick = (actionKey: any, node?: NodeType) => {
     switch (actionKey) {
+      case 'ACTION2':
+        nodeClipboard.current = node
+        break;
       case 'ACTION4':
         onDeleteNode(node, treeData, setTreeData, setRemoveParent)
         break;
     }
+    console.log("nodeClipboard.current ", nodeClipboard.current);
   }
 
   const handleUpdateTree = (nodes: NodeType[]) => {
