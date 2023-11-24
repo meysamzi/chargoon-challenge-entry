@@ -1,15 +1,18 @@
-import { useEffect, useContext, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
+import { Alert } from 'antd';
 import AppContext from "./appContext";
 import Form from "./Components/Form";
 import Sidebar from "./Components/Sidebar";
 import ExtendedTree from './Components/Tree'
 import { getNodes } from "./transportLayer";
 import { NodeType } from "./types";
+import { onDeleteNode } from "./Utils/nodeHandling";
 
 function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [showEdit, setShowEdit] = useState(true);
   const [treeData, setTreeData] = useState([]);
+  const [removeParent, setRemoveParent] = useState(false)
 
   const fetchTreeData = async () => {
     const result = await getNodes();
@@ -20,9 +23,10 @@ function App() {
     fetchTreeData()
   }, [])
 
-  const handleContextMenuClick = (actionKey: any) => {
+  const handleContextMenuClick = (actionKey: any, node?: NodeType) => {
     switch (actionKey) {
-      case '':
+      case 'ACTION4':
+        onDeleteNode(node, treeData, setTreeData, setRemoveParent)
         break;
     }
   }
@@ -43,6 +47,13 @@ function App() {
       }}
     >
       <div className="App">
+        {removeParent && (<Alert
+          message="You can't remove a parent"
+          type="error"
+          closable
+          style={{ width: "25%", position: "absolute", left: "0", zIndex: "2" }}
+          onClose={() => setRemoveParent(false)}
+        />)}
         <Sidebar>
           <ExtendedTree handleContextMenuClick={handleContextMenuClick} />
         </Sidebar>

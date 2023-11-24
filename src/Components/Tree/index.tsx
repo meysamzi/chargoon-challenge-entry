@@ -1,5 +1,4 @@
 import { Input, Tree } from 'antd';
-import type { DataNode } from 'antd/es/tree';
 import React, { useContext, useMemo, useRef, useState } from 'react';
 import AppContext from '../../appContext';
 import { NodeType } from '../../types';

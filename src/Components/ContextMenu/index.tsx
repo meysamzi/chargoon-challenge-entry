@@ -1,5 +1,4 @@
 // @ts-nocheck
-import React from 'react';
 import { ContextMenuTrigger, ContextMenu, ContextMenuItem } from 'rctx-contextmenu';
 
 export function ContextMenuTriggerEx({ id, title }) {
@@ -16,8 +15,8 @@ export function ContextMenuEx({ id, children }) {
     </ContextMenu>)
 }
 
-export function ContextMenuItemEx({ title, handleClick }) {
+export function ContextMenuItemEx({ title, handleClick, disabled = false }) {
     return (
-        <ContextMenuItem onClick={handleClick}>{title}</ContextMenuItem>
+        <ContextMenuItem disabled={disabled} onClick={handleClick}>{title}</ContextMenuItem>
     );
 }
