@@ -6,13 +6,14 @@ import Sidebar from "./Components/Sidebar";
 import ExtendedTree from './Components/Tree'
 import { getNodes } from "./transportLayer";
 import { NodeType } from "./types";
-import { onDeleteNode } from "./Utils/nodeHandling";
+import { onDeleteNode, onPasteNode } from "./Utils/nodeHandling";
 
 function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [showEdit, setShowEdit] = useState(true);
   const [treeData, setTreeData] = useState([]);
   const [removeParent, setRemoveParent] = useState(false)
+  const [isNodeCut, setIsNodeCut] = useState(null)
   const nodeClipboard = useRef<NodeType>()
 
   const fetchTreeData = async () => {
@@ -28,6 +29,9 @@ function App() {
     switch (actionKey) {
       case 'ACTION2':
         nodeClipboard.current = node
+        break;
+      case 'ACTION3':
+        onPasteNode(node, nodeClipboard, treeData, setTreeData, setIsNodeCut)
         break;
       case 'ACTION4':
         onDeleteNode(node, treeData, setTreeData, setRemoveParent)
@@ -58,6 +62,13 @@ function App() {
           closable
           style={{ width: "25%", position: "absolute", left: "0", zIndex: "2" }}
           onClose={() => setRemoveParent(false)}
+        />)}
+        {isNodeCut && (<Alert
+          message="You have not choosen any node to cut"
+          type="error"
+          closable
+          style={{ width: "25%", position: "absolute", left: "0", zIndex: "2" }}
+          onClose={() => setIsNodeCut(null)}
         />)}
         <Sidebar>
           <ExtendedTree handleContextMenuClick={handleContextMenuClick} />
