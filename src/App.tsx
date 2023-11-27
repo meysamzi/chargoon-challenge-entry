@@ -14,6 +14,7 @@ function App() {
   const [treeData, setTreeData] = useState([]);
   const [removeParent, setRemoveParent] = useState(false)
   const [isNodeCut, setIsNodeCut] = useState(null)
+  const [nodeToEdit, setNodeToEdit] = useState<NodeType>()
   const nodeClipboard = useRef<NodeType>()
 
   const fetchTreeData = async () => {
@@ -48,6 +49,10 @@ function App() {
 
   }
 
+  const onSelectNodeToEdit = (node: NodeType) => {
+    setNodeToEdit(node)
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -71,7 +76,7 @@ function App() {
           onClose={() => setIsNodeCut(null)}
         />)}
         <Sidebar>
-          <ExtendedTree handleContextMenuClick={handleContextMenuClick} />
+          <ExtendedTree handleContextMenuClick={handleContextMenuClick} onSelectNodeToEdit={onSelectNodeToEdit} />
         </Sidebar>
         {showEdit && <Form item={selectedItem} updateNode={handleUpdateNode} />}
       </div>

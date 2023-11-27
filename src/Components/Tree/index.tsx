@@ -9,15 +9,16 @@ const { Search } = Input;
 
 interface Props {
   handleContextMenuClick: (key: string) => void;
+  onSelectNodeToEdit(node: NodeType): void;
 }
 
-const TreeExtended: React.FC<Props> = ({ handleContextMenuClick }) => {
+const TreeExtended: React.FC<Props> = ({ handleContextMenuClick, onSelectNodeToEdit }) => {
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
   const searchedKeyword = useRef();
   const [searchResultVisible, setSearchResultVisible] = useState(true);
   const { treeData } = useContext(AppContext);
-  
+
   const onExpand = (newExpandedKeys: any[]) => {
     setExpandedKeys(newExpandedKeys);
     setAutoExpandParent(false);
@@ -39,6 +40,7 @@ const TreeExtended: React.FC<Props> = ({ handleContextMenuClick }) => {
     <div className='tree-wrap'>
       <Search style={{ marginBottom: 8 }} placeholder="جستجو" onChange={handleSearchInputChange} onPressEnter={handlePressEnter} />
       <Tree
+        onSelect={(selectedKeys, info) => onSelectNodeToEdit(info.node as NodeType)}
         onExpand={onExpand}
         expandedKeys={expandedKeys}
         autoExpandParent={autoExpandParent}
