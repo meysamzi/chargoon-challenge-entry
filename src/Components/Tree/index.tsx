@@ -1,5 +1,5 @@
 import { Input, Tree } from 'antd';
-import React, { useContext, useMemo, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import AppContext from '../../appContext';
 import { NodeType } from '../../types';
 import Node from './node';
@@ -41,6 +41,7 @@ const TreeExtended: React.FC<Props> = ({ handleContextMenuClick, onSelectNodeToE
       <Search style={{ marginBottom: 8 }} placeholder="جستجو" onChange={handleSearchInputChange} onPressEnter={handlePressEnter} />
       <Tree
         onSelect={(selectedKeys, info) => onSelectNodeToEdit(info.node as NodeType)}
+        multiple={false}
         onExpand={onExpand}
         expandedKeys={expandedKeys}
         autoExpandParent={autoExpandParent}

@@ -1,20 +1,26 @@
+import { useEffect } from 'react'
 import { Form, Input } from 'antd';
-import React from 'react';
+import { NodeType } from '../../types';
 import UserAutoComplete from './user-autocomplete';
 
 interface Props {
-	initialValue?: any;
+	initialValue?: NodeType;
 }
 
-function BasicInformation({ }: Props) {
+function BasicInformation({ initialValue }: Props) {
 	const [form] = Form.useForm();
+	useEffect(() => {		
+		form.setFieldsValue({ title: initialValue?.title, key: initialValue?.key })
+	}, [initialValue])
 
 	return (
-		<Form form={form}>
-			<Form.Item name="title" label="عنوان" labelCol={{ span: 2 }} >
+		<Form form={form} initialValues={initialValue}>
+			<Form.Item
+				rules={[{ required: true, message: 'عنوان الزامسیست' }]}
+				name="title" label="عنوان" labelCol={{ span: 2 }}>
 				<Input />
-			</Form.Item>
-			<Form.Item name="code" label="کد" labelCol={{ span: 2 }}>
+			</Form.Item >
+			<Form.Item name="key" label="کد" labelCol={{ span: 2 }}>
 				<Input />
 			</Form.Item>
 			<Form.Item name="users" label="کاربران" labelCol={{ span: 2 }}>
@@ -23,4 +29,5 @@ function BasicInformation({ }: Props) {
 		</Form>
 	);
 }
+
 export default BasicInformation

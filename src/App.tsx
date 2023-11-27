@@ -9,7 +9,6 @@ import { NodeType } from "./types";
 import { onDeleteNode, onPasteNode } from "./Utils/nodeHandling";
 
 function App() {
-  const [selectedItem, setSelectedItem] = useState(null);
   const [showEdit, setShowEdit] = useState(true);
   const [treeData, setTreeData] = useState([]);
   const [removeParent, setRemoveParent] = useState(false)
@@ -38,7 +37,6 @@ function App() {
         onDeleteNode(node, treeData, setTreeData, setRemoveParent)
         break;
     }
-    console.log("nodeClipboard.current ", nodeClipboard.current);
   }
 
   const handleUpdateTree = (nodes: NodeType[]) => {
@@ -78,7 +76,7 @@ function App() {
         <Sidebar>
           <ExtendedTree handleContextMenuClick={handleContextMenuClick} onSelectNodeToEdit={onSelectNodeToEdit} />
         </Sidebar>
-        {showEdit && <Form item={selectedItem} updateNode={handleUpdateNode} />}
+        {showEdit && <Form updateNode={handleUpdateNode} nodeToEdit={nodeToEdit} />}
       </div>
     </AppContext.Provider>
   );

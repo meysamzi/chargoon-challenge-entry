@@ -1,19 +1,16 @@
-import { Input, Tabs } from 'antd';
-import React from 'react';
+import { Tabs } from 'antd';
+import { NodeType } from '../../types';
 import ErrorBoundry from '../../ErrorBoundry';
 import ActionBar from '../ActionBar';
-import ArrowDownIcon from '../SvgIcons/arrow-down';
-import ArrowUpIcon from '../SvgIcons/arrow-up';
 import Accesses from './accesses';
 import BasicInformation from './basic-information';
-import UsersList from './user-autocomplete';
 
 interface Props {
-	item: any;
 	updateNode: (key: string, data: any) => void
+	nodeToEdit: NodeType
 }
 
-function Form({ item, updateNode }: Props) {
+function FormComponent({ updateNode, nodeToEdit }: Props) {
 
 	const handleSave = () => {
 		updateNode('key', {})
@@ -25,13 +22,13 @@ function Form({ item, updateNode }: Props) {
 				<Tabs>
 					<Tabs.TabPane tab="اطلاعات اصلی" key="item-1">
 						<div className='form-content'>
-							<BasicInformation initialValue={item?.data.basicInformation} />
+							<BasicInformation initialValue={nodeToEdit} />
 						</div>
 					</Tabs.TabPane>
 					<Tabs.TabPane tab="دسترسی ها" key="item-2">
 						<div className='form-content'>
 							<ErrorBoundry>
-								<Accesses initialValue={item?.data.accesses} />
+								<Accesses initialValue={{}} />
 							</ErrorBoundry>
 						</div>
 					</Tabs.TabPane>
@@ -41,4 +38,4 @@ function Form({ item, updateNode }: Props) {
 		</div>
 	);
 }
-export default Form
+export default FormComponent
