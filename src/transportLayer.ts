@@ -12,12 +12,9 @@ export async function getNodes() {
 	return createTreeMockData()
 }
 
-export async function getUsers() {
-	return [
-		{ label: 'superadmin', value: 'superadmin' },
-		{ label: 'admin', value: 'admin' },
-		{ label: 'alireza', value: 'alireza' },
-		{ label: 'alirezatest', value: 'alirezatest' },
-
-	]
-}
+export const getUsers = async () => [
+	{ label: 'superadmin', value: 'superadmin' },
+	{ label: 'admin', value: 'admin' },
+	{ label: 'alireza', value: 'alireza' },
+	{ label: 'alirezatest', value: 'alirezatest' },
+]

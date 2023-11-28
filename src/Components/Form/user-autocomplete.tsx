@@ -1,40 +1,32 @@
 import { AutoComplete, Button } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
-import { getUsers } from '../../transportLayer';
+import { NodeType } from '../../types';
 
+interface Props {
+  initialValue?: NodeType;
+}
 
-const UserAutoComplete: React.FC = () => {
-  const orginalOptions = useRef([]);
-  const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
-
-  useEffect(() => {
-    getUsers().then((users) => {
-      orginalOptions.current = users;
-      setOptions(users);
-    })
-  }, []);
-
-
-  const onSearch = (searchText: string) => {
-    setOptions(
-      orginalOptions.current.filter(o => o.label.indexOf(searchText) > -1 )
-    );
-  };
-
+const UserAutoComplete = ({ initialValue }: Props) => {
   const onSelect = (data: string) => {
     console.log('onSelect', data);
   };
 
+  const renderTitle = (title: string) => (
+    <span>
+      {title}
+    </span>
+  );
+
+  const usersData = initialValue?.users?.map((data: any) => { return { label: renderTitle(data?.title) } })
+
   return (
     <>
       <AutoComplete
-        options={options}
+        options={usersData}
         style={{ width: 200 }}
         onSelect={onSelect}
-        onSearch={onSearch}
         placeholder="جستجوی کاربر"
       />
-     <Button >افزودن</Button>
+      <Button >افزودن</Button>
     </>
   );
 };

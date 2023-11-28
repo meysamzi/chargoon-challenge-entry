@@ -24,7 +24,7 @@ function BasicInformation({ initialValue }: Props) {
 				<Input />
 			</Form.Item>
 			<Form.Item name="users" label="کاربران" labelCol={{ span: 2 }}>
-				<UserAutoComplete />
+				<UserAutoComplete initialValue={initialValue} />
 			</Form.Item>
 		</Form>
 	);
