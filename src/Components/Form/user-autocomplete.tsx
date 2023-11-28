@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { AutoComplete, Button, Checkbox, Popover } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons'
 import { NodeType } from '../../types';
+import { onDeleting } from '../../Utils/usersTableHandling'
 
 interface Props {
   initialValue?: NodeType;
@@ -39,14 +40,10 @@ const UserAutoComplete = ({ initialValue }: Props) => {
     }
   }
 
-  const onDeleting = (title: string) => {
-    setSelectedUsers(prev => prev.filter(x => x.title !== title))
-  }
-
   const content = (title: string) => {
     return (
       <div>
-        <Button onClick={() => onDeleting(title)}>حذف</Button>
+        <Button onClick={() => onDeleting(title, setSelectedUsers)}>حذف</Button>
       </div>
     )
   }
