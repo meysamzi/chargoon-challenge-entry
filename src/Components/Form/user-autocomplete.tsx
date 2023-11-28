@@ -2,15 +2,10 @@ import { useState, useEffect } from 'react'
 import { AutoComplete, Button, Checkbox, Popover } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons'
 import { NodeType } from '../../types';
-import { onDeleting } from '../../Utils/usersTableHandling'
+import { onDeleting, onChangeCheckBox } from '../../Utils/usersTableHandling'
 
 interface Props {
   initialValue?: NodeType;
-}
-
-interface IUser {
-  title: string
-  isDefault: boolean
 }
 
 const UserAutoComplete = ({ initialValue }: Props) => {
@@ -30,15 +25,6 @@ const UserAutoComplete = ({ initialValue }: Props) => {
   );
 
   const usersData = initialValue?.users?.map((data: any) => { return { label: renderTitle(data?.title) } })
-
-  const onChangeCheckBox = (user: IUser) => {
-    if (!user.isDefault) {
-      const users = selectedUsers.map(x => {
-        return { ...x, isDefault: x.title === user.title ? true : false }
-      })
-      setSelectedUsers(users)
-    }
-  }
 
   const content = (title: string) => {
     return (
@@ -70,7 +56,7 @@ const UserAutoComplete = ({ initialValue }: Props) => {
                     <EllipsisOutlined rev={1} />
                   </Popover>
                 </td>
-                <td align='center'><Checkbox checked={user.isDefault} onChange={() => onChangeCheckBox(user)} /></td>
+                <td align='center'><Checkbox checked={user.isDefault} onChange={() => onChangeCheckBox(user, selectedUsers, setSelectedUsers)} /></td>
                 <td align='center'>{user.title}</td>
               </tr>
             )}
