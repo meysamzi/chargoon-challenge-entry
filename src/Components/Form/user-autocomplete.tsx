@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { AutoComplete, Button, Checkbox } from 'antd';
+import { AutoComplete, Button, Checkbox, Popover } from 'antd';
+import { EllipsisOutlined } from '@ant-design/icons'
 import { NodeType } from '../../types';
 
 interface Props {
@@ -38,6 +39,18 @@ const UserAutoComplete = ({ initialValue }: Props) => {
     }
   }
 
+  const onDeleting = (title: string) => {
+    setSelectedUsers(prev => prev.filter(x => x.title !== title))
+  }
+
+  const content = (title: string) => {
+    return (
+      <div>
+        <Button onClick={() => onDeleting(title)}>حذف</Button>
+      </div>
+    )
+  }
+
   return (
     <>
       <AutoComplete
@@ -56,6 +69,9 @@ const UserAutoComplete = ({ initialValue }: Props) => {
             {selectedUsers?.map((user: any, index: number) =>
               <tr key={index}>
                 <td align='center'>
+                  <Popover content={() => content(user.title)} title="عملیات">
+                    <EllipsisOutlined rev={1} />
+                  </Popover>
                 </td>
                 <td align='center'><Checkbox checked={user.isDefault} onChange={() => onChangeCheckBox(user)} /></td>
                 <td align='center'>{user.title}</td>
