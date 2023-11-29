@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { AutoComplete, Button } from 'antd';
 import { NodeType } from '../../types';
 import UsersTable from './usersTable';
+import { getUsers } from '../../transportLayer';
 
 interface Props {
   initialValue?: NodeType;
@@ -9,31 +10,37 @@ interface Props {
 
 const UserAutoComplete = ({ initialValue }: Props) => {
   const [selectedUsers, setSelectedUsers] = useState([])
+  const [selectValue, setSelectValue] = useState<string>()
+  const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
   const onSelect = (data: string) => {
-    console.log('onSelect', data);
+    setSelectValue(data)
   };
 
   useEffect(() => {
     if (initialValue) setSelectedUsers(initialValue.users)
   }, [initialValue])
 
-  const renderTitle = (title: string) => (
-    <span>
-      {title}
-    </span>
-  );
-
-  const usersData = initialValue?.users?.map((data: any) => { return { label: renderTitle(data?.title) } })
+  useEffect(() => {
+    getUsers().then((users) => {
+      setOptions(users);
+    })
+  }, []);
 
   return (
     <>
       <AutoComplete
-        options={usersData}
+        options={options.filter(option => !selectedUsers.map(x => x.title).includes(option.label))}
+        value={selectValue}
         style={{ width: 200 }}
         onSelect={onSelect}
         placeholder="جستجوی کاربر"
       />
-      <Button >افزودن</Button>
+      <Button onClick={() => {
+        if (selectValue) {
+          setSelectedUsers(prev => [...prev, { title: selectValue, isDefault: selectedUsers.map(x => x.isDefault).includes(true) ? false : true }])
+          setSelectValue(undefined)
+        }
+      }} disabled={selectValue ? false : true}>افزودن</Button>
       <UsersTable selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} />
     </>
   );
