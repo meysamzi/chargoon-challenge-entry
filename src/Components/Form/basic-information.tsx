@@ -1,16 +1,16 @@
 import { useEffect } from 'react'
-import { Form, Input } from 'antd';
+import { Form, Input, FormInstance } from 'antd';
 import { NodeType } from '../../types';
 import UserAutoComplete from './user-autocomplete';
 
 interface Props {
 	initialValue?: NodeType;
+	form: FormInstance<any>
 }
 
-function BasicInformation({ initialValue }: Props) {
-	const [form] = Form.useForm();
-	useEffect(() => {		
-		form.setFieldsValue({ title: initialValue?.title, key: initialValue?.key })
+function BasicInformation({ initialValue, form }: Props) {
+	useEffect(() => {
+		form.setFieldsValue({ title: initialValue?.title, key: initialValue?.key, users: initialValue?.users })
 	}, [initialValue])
 
 	return (
@@ -20,7 +20,7 @@ function BasicInformation({ initialValue }: Props) {
 				name="title" label="عنوان" labelCol={{ span: 2 }}>
 				<Input />
 			</Form.Item >
-			<Form.Item name="key" label="کد" labelCol={{ span: 2 }}>
+			<Form.Item rules={[{ required: true, message: 'کد الزامسیست' }]} name="key" label="کد" labelCol={{ span: 2 }}>
 				<Input />
 			</Form.Item>
 			<Form.Item name="users" label="کاربران" labelCol={{ span: 2 }}>
