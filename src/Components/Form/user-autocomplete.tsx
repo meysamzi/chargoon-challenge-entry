@@ -3,6 +3,7 @@ import { AutoComplete, Button } from 'antd';
 import { NodeType } from '../../types';
 import UsersTable from './usersTable';
 import { getUsers } from '../../transportLayer';
+import { addNewUser } from '../../Utils/usersTableHandling';
 
 interface Props {
   initialValue?: NodeType;
@@ -35,12 +36,7 @@ const UserAutoComplete = ({ initialValue }: Props) => {
         onSelect={onSelect}
         placeholder="جستجوی کاربر"
       />
-      <Button onClick={() => {
-        if (selectValue) {
-          setSelectedUsers(prev => [...prev, { title: selectValue, isDefault: selectedUsers.map(x => x.isDefault).includes(true) ? false : true }])
-          setSelectValue(undefined)
-        }
-      }} disabled={selectValue ? false : true}>افزودن</Button>
+      <Button onClick={() => addNewUser(selectValue, selectedUsers, setSelectedUsers, setSelectValue)} disabled={selectValue ? false : true}>افزودن</Button>
       <UsersTable selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} />
     </>
   );

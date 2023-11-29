@@ -16,3 +16,10 @@ export const onDeleting = (title: string, setSelectedUsers: any) => {
     setSelectedUsers((prev: any) => prev.filter((x: any) => x.title !== title))
 }
 
+export const addNewUser = (selectValue: string, selectedUsers: any, setSelectedUsers: any, setSelectValue: any) => {
+    if (selectValue) {
+        setSelectedUsers((prev: any) => [...prev, { title: selectValue, isDefault: selectedUsers.map((x: any) => x.isDefault).includes(true) ? false : true }])
+        setSelectValue(undefined)
+    }
+}
+
