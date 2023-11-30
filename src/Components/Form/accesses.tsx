@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Checkbox } from 'antd';
 import { getAccessList } from '../../transportLayer';
 
@@ -11,7 +11,7 @@ function Accesses({ }: Props) {
 
 	const fetchAccessList = async () => {
 		const result = await getAccessList();
-		setOptions(result);
+		setOptions(result.map(x => x.label));
 	}
 
 	useEffect(() => {
@@ -24,7 +24,7 @@ function Accesses({ }: Props) {
 	}
 
 	return (
-		<Checkbox.Group options={options as any} onChange={handleOnChange} />
+		<Checkbox.Group options={options} onChange={handleOnChange} />
 	);
 }
 export default Accesses

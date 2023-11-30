@@ -18,7 +18,6 @@ function FormComponent({ updateNode, nodeToEdit }: Props) {
 
 	const handleSave = () => {
 		form.validateFields().then(x => {
-			console.log("x ", x);
 			updateNode({ ...nodeToEdit, users: selectedUsers }).then(callBack => { setIsUserTableModified(callBack) })
 		})
 	}
