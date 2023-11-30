@@ -9,7 +9,7 @@ interface AppContext {
 
 const defaultAppContext: AppContext = {
     treeData: [],
-    updateTreeData: () => []
+    updateTreeData: () => [],
 };
 
 const AppContext = React.createContext<AppContext>(defaultAppContext);

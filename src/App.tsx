@@ -9,7 +9,6 @@ import { NodeType } from "./types";
 import { onDeleteNode, onPasteNode } from "./Utils/nodeHandling";
 
 function App() {
-  const [showEdit, setShowEdit] = useState(true);
   const [treeData, setTreeData] = useState([]);
   const [removeParent, setRemoveParent] = useState(false)
   const [isNodeCut, setIsNodeCut] = useState(null)
@@ -43,12 +42,22 @@ function App() {
 
   }
 
-  const handleUpdateNode = (key: string, data: any) => {
-
-  }
-
   const onSelectNodeToEdit = (node: NodeType) => {
     setNodeToEdit(node)
+  }
+
+  const handleUpdateNode = (data: NodeType): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+      const newTreeData = [...treeData]
+      newTreeData.forEach(function iter(item: NodeType, index, objects) {
+        if (item.key === nodeToEdit.key) {
+          item = Object.assign(item, data)
+          setTreeData(newTreeData)
+          setNodeToEdit(undefined)
+        } (item.children || []).forEach(iter);
+      })
+      resolve(true)
+    })
   }
 
   return (
@@ -76,7 +85,7 @@ function App() {
         <Sidebar>
           <ExtendedTree handleContextMenuClick={handleContextMenuClick} onSelectNodeToEdit={onSelectNodeToEdit} />
         </Sidebar>
-        {showEdit && <Form updateNode={handleUpdateNode} nodeToEdit={nodeToEdit} />}
+        <Form updateNode={handleUpdateNode} nodeToEdit={nodeToEdit} />
       </div>
     </AppContext.Provider>
   );
