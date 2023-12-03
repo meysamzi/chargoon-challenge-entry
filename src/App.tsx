@@ -54,8 +54,6 @@ function App() {
     setNodeToEdit(node)
   }
 
-  console.log(treeData)
-
   const handleUpdateNode = (key: string, data: NodeType, type: 'save' | 'add'): Promise<boolean> => {
     return new Promise((resolve, reject) => {
       const newTreeData = [...treeData]
