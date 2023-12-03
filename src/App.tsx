@@ -9,6 +9,7 @@ import { NodeType } from "./types";
 import { onDeleteNode, onPasteNode } from "./Utils/nodeHandling";
 
 function App() {
+  const [selectedItem, setSelectedItem] = useState<NodeType>(null);
   const [treeData, setTreeData] = useState([]);
   const [removeParent, setRemoveParent] = useState(false)
   const [isNodeCut, setIsNodeCut] = useState(null)
@@ -26,6 +27,9 @@ function App() {
 
   const handleContextMenuClick = (actionKey: any, node?: NodeType) => {
     switch (actionKey) {
+      case 'ACTION1':
+        setSelectedItem(node)
+        break;
       case 'ACTION2':
         nodeClipboard.current = node
         break;
