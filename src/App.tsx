@@ -25,6 +25,10 @@ function App() {
     fetchTreeData()
   }, [])
 
+  useEffect(() => {
+    if (selectedItem) setNodeToEdit(undefined)
+  }, [selectedItem])
+
   const handleContextMenuClick = (actionKey: any, node?: NodeType) => {
     switch (actionKey) {
       case 'ACTION1':
