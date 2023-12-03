@@ -84,6 +84,9 @@ function App() {
     })
   }
 
+  console.log(treeData);
+  
+
   return (
     <AppContext.Provider
       value={{

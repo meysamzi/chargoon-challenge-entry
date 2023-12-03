@@ -18,7 +18,7 @@ function FormComponent({ updateNode, nodeToEdit }: Props) {
 
 	const handleAddNewNode = () => {
 		form.validateFields().then(x => {
-			updateNode(x.key, { ...x }, "add").then(callBack => setIsFormModified(callBack)).catch((err) => setIsFormModified(err))
+			updateNode(x.key, { ...x, users: selectedUsers ?? [] }, "add").then(callBack => setIsFormModified(callBack)).catch((err) => setIsFormModified(err))
 		})
 	}
 
