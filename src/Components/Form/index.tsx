@@ -49,7 +49,7 @@ function FormComponent({ updateNode, nodeToEdit }: Props) {
 			</div>
 			<ActionBar actions={nodeToEdit ? [{ title: 'ذخیره', handler: handleSave }] : [{ title: 'افزودن', handler: handleAddNewNode }]} />
 			{isFormModified && (<Alert
-				message="The table has been successfully modified"
+				message="The form Has been Successfully Modified"
 				type="success"
 				closable
 				style={{ width: "25%", position: "absolute", left: "0", zIndex: "2" }}
