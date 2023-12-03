@@ -31,14 +31,13 @@ const UserAutoComplete = ({ initialValue, selectedUsers, setSelectedUsers }: Pro
   return (
     <>
       <AutoComplete
-        options={options.filter(option => !selectedUsers.map((x: any) => x.title).includes(option.label))}
+        options={options?.filter(option => !selectedUsers?.map((x: any) => x?.title).includes(option?.label))}
         value={selectValue}
         style={{ width: 200 }}
         onSelect={onSelect}
         placeholder="جستجوی کاربر"
       />
       <Button onClick={() => addNewUser(selectValue, selectedUsers, setSelectedUsers, setSelectValue)} disabled={selectValue ? false : true}>افزودن</Button>
-
       <UsersTable selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} />
     </>
   );
