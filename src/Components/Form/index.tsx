@@ -12,19 +12,19 @@ interface Props {
 }
 
 function FormComponent({ updateNode, nodeToEdit }: Props) {
-	const [isFormModified, setIsFormModified] = useState(null)
+	const [isFormModified, setIsFormModified] = useState(false)
 	const [selectedUsers, setSelectedUsers] = useState([])
 	const [form] = Form.useForm()
 
 	const handleAddNewNode = () => {
 		form.validateFields().then(x => {
-			updateNode(x.key, { ...x }, "add").then(callBack => setIsFormModified(callBack))
+			updateNode(x.key, { ...x }, "add").then(callBack => setIsFormModified(callBack)).catch((err) => setIsFormModified(err))
 		})
 	}
 
 	const handleSave = () => {
 		form.validateFields().then(x => {
-			updateNode(x.key, { ...nodeToEdit, users: selectedUsers }, "save").then(callBack => { setIsFormModified(callBack) })
+			updateNode(x.key, { ...nodeToEdit, users: selectedUsers }, "save").then(callBack => { setIsFormModified(callBack) }).catch((err) => setIsFormModified(err))
 		})
 	}
 
@@ -50,7 +50,7 @@ function FormComponent({ updateNode, nodeToEdit }: Props) {
 			<ActionBar actions={nodeToEdit ? [{ title: 'ذخیره', handler: handleSave }] : [{ title: 'افزودن', handler: handleAddNewNode }]} />
 			{isFormModified && (<Alert
 				message="The form Has been Successfully Modified"
-				type="success"
+				type={isFormModified ? "success" : "error"}
 				closable
 				style={{ width: "25%", position: "absolute", left: "0", zIndex: "2" }}
 				onClose={() => setIsFormModified(null)}
