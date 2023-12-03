@@ -16,7 +16,7 @@ function Node({ node, handleContextMenuClick }: Props) {
         title={node.title}
       />
       <ContextMenuEx id={node.key}>
-        <ContextMenuItemEx handleClick={() => handleContextMenuClick('ACTION1')} title={'افزودن زیرشاخه'} />
+        <ContextMenuItemEx handleClick={() => handleContextMenuClick('ACTION1', node)} title={'افزودن زیرشاخه'} />
         <ContextMenuItemEx disabled={node.children.length > 0} handleClick={() => handleContextMenuClick('ACTION2', node)} title={'برش'} />
         <ContextMenuItemEx handleClick={() => handleContextMenuClick('ACTION3', node)} title={'چسباندن'} />
         <ContextMenuItemEx handleClick={() => handleContextMenuClick('ACTION4', node)} title={'حذف'} />
