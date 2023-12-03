@@ -7,18 +7,24 @@ import Accesses from './accesses';
 import BasicInformation from './basic-information';
 
 interface Props {
-	updateNode: (data: NodeType) => Promise<boolean>
+	updateNode: (key: string, data: NodeType, type: 'save' | 'add') => Promise<boolean>
 	nodeToEdit: NodeType
 }
 
 function FormComponent({ updateNode, nodeToEdit }: Props) {
-	const [isUserTableModified, setIsUserTableModified] = useState(null)
+	const [isFormModified, setIsFormModified] = useState(null)
 	const [selectedUsers, setSelectedUsers] = useState([])
 	const [form] = Form.useForm()
 
+	const handleAddNewNode = () => {
+		form.validateFields().then(x => {
+			updateNode(x.key, { ...x }, "add").then(callBack => setIsFormModified(callBack))
+		})
+	}
+
 	const handleSave = () => {
 		form.validateFields().then(x => {
-			updateNode({ ...nodeToEdit, users: selectedUsers }).then(callBack => { setIsUserTableModified(callBack) })
+			updateNode(x.key, { ...nodeToEdit, users: selectedUsers }, "save").then(callBack => { setIsFormModified(callBack) })
 		})
 	}
 
@@ -41,13 +47,13 @@ function FormComponent({ updateNode, nodeToEdit }: Props) {
 					</Tabs.TabPane>
 				</Tabs>
 			</div>
-			<ActionBar actions={[{ title: 'ذخیره', handler: handleSave }]} />
-			{isUserTableModified && (<Alert
+			<ActionBar actions={nodeToEdit ? [{ title: 'ذخیره', handler: handleSave }] : [{ title: 'افزودن', handler: handleAddNewNode }]} />
+			{isFormModified && (<Alert
 				message="The table has been successfully modified"
 				type="success"
 				closable
 				style={{ width: "25%", position: "absolute", left: "0", zIndex: "2" }}
-				onClose={() => setIsUserTableModified(null)}
+				onClose={() => setIsFormModified(null)}
 			/>)}
 		</div>
 	);

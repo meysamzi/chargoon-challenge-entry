@@ -50,17 +50,33 @@ function App() {
     setNodeToEdit(node)
   }
 
-  const handleUpdateNode = (data: NodeType): Promise<boolean> => {
+  const handleUpdateNode = (key: string, data: NodeType, type: 'save' | 'add'): Promise<boolean> => {
     return new Promise((resolve, reject) => {
       const newTreeData = [...treeData]
-      newTreeData.forEach(function iter(item: NodeType, index, objects) {
-        if (item.key === nodeToEdit.key) {
-          item = Object.assign(item, data)
-          setTreeData(newTreeData)
-          setNodeToEdit(undefined)
-        } (item.children || []).forEach(iter);
-      })
-      resolve(true)
+      if (type === 'save') {
+        newTreeData.forEach(function iter(item: NodeType, index, objects) {
+          if (item.key === nodeToEdit.key) {
+            item = Object.assign(item, data)
+            setTreeData(newTreeData)
+            setNodeToEdit(undefined)
+          } (item.children || []).forEach(iter);
+        })
+        resolve(true)
+      } else if (selectedItem) {
+        newTreeData.forEach(function iter(item: NodeType, index, objects) {
+          if (item.key === selectedItem.key) {
+            data.parentKey = selectedItem.key
+            data.children = []
+            data.hierarchy = item.hierarchy.length ? [...item.hierarchy, data.key] : [item.key, key]
+            item.children.unshift(data)
+            setTreeData(newTreeData)
+          } (item.children || []).forEach(iter);
+        })
+        setSelectedItem(undefined)
+        resolve(true)
+      } else {
+        reject(false)
+      }
     })
   }
 
